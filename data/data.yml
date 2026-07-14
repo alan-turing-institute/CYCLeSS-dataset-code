@@ -1,0 +1,33 @@
+sources:
+  cycless_yield_satellite:
+    description: >
+      Per-field, per-year averaged Sentinel-1 satellite readings (VV, VH,
+      Ratio bands) matched to precision crop yield data. Spatial identifiers
+      stripped for anonymisation (see CYCLeSS-dataset-code repo).
+    driver: csv
+    args:
+      urlpath: "{{ CATALOG_DIR }}/crop_yield_type_and_satellite_data/*_MeanYieldperField.csv"
+
+  cycless_soil:
+    description: >
+      Static per-field soil properties (clay/sand/silt percentages). Note:
+      the 'text' column is a continuous numeric code, not a USDA soil
+      texture class - derive texture class from clay/sand/silt if needed.
+    driver: csv
+    args:
+      urlpath: "{{ CATALOG_DIR }}/soil_data/LandUseandSoil_*.csv"
+
+  cycless_climate:
+    description: >
+      Daily precipitation and temperature per 1km grid square (grid_ID),
+      2015-2017. Contains duplicate rows per grid_ID (one per field sharing
+      that square) - deduplicate on grid_ID before joining to yield data.
+    driver: csv
+    args:
+      urlpath: "{{ CATALOG_DIR }}/climate_data/*/*.csv"
+
+# NOTE: urlpaths above are relative to this file's location (local use).
+# If this is ever submitted to the Scivision catalog proper, these need to
+# point at the public download location instead (e.g. the Figshare record
+# for the published CYCLeSS dataset), per the Scivision data repo template:
+# https://scivision.readthedocs.io/en/latest/data_repository_template.html
